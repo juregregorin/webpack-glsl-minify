@@ -73,6 +73,14 @@ const argv = yargs
     nomangle: {
       describe: 'Disables name mangling for a set of keywords',
       type: 'array'
+    }, 
+    keepNewlines: {
+      describe: 'Preserves newlines (helpful for development)',
+      type: 'boolean'
+    }, 
+    keepComments: {
+      describe: 'Preserves comments (helpful for development)',
+      type: 'boolean'
     }
   })
   .help()

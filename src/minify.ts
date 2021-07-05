@@ -330,6 +330,12 @@ export interface GlslMinifyOptions {
 
   /** Additional variable names or keywords to explicitly disable name mangling */
   nomangle?: string[];
+  
+  /** keep newlines. Default = false */
+  keepNewlines?: boolean;
+
+  /** keep comments. Default = false */
+  keepComments?: boolean;
 }
 
 /**
@@ -401,20 +407,24 @@ export class GlslMinify {
     let output = content.contents;
 
     // Remove carriage returns. Use newlines only.
-    output = output.replace('\r', '');
+    if (!this.options.keepNewlines) {
+      output = output.replace('\r', '');
+    }
 
     // Strip any #version directives
     if (this.options.stripVersion) {
       output = output.replace(/#version.+/, '');
     }
 
-    // Remove C style comments
-    const cStyleRegex = /\/\*[\s\S]*?\*\//g;
-    output = output.replace(cStyleRegex, '');
+    if (!this.options.keepComments) {
+      // Remove C style comments
+      const cStyleRegex = /\/\*[\s\S]*?\*\//g;
+      output = output.replace(cStyleRegex, '');
 
-    // Remove C++ style comments
-    const cppStyleRegex = /\/\/[^\n]*/g;
-    output = output.replace(cppStyleRegex, '\n');
+      // Remove C++ style comments
+      const cppStyleRegex = /\/\/[^\n]*/g;
+      output = output.replace(cppStyleRegex, '\n');
+    }
 
     // Process @include directive
     const includeRegex = /@include\s+(.*)/;
