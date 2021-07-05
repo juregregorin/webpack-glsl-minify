@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "glob": "^7.1.6",
-    "yargs": "^16.0.3"
+    "yargs": "^16.0.3",
+    "loader-utils": "^2.0.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -30,7 +31,6 @@
     "eslint-plugin-jsdoc": "^30.6.4",
     "jasmine": "^3.6.1",
     "jasmine-xml-reporter": "^1.2.1",
-    "loader-utils": "^2.0.0",
     "nyc": "^15.1.0",
     "source-map-support": "^0.5.19",
     "ts-node": "^9.0.0",
