@@ -265,6 +265,9 @@ export enum TokenType {
   /** The varying keyword */
   ttVarying,
 
+  /** The in and out keywords */ 
+  ttInOut, 
+
   /** An operator, including parentheses. (Note: dots, brackets, and semicolons are also special ones below) */
   ttOperator,
 
@@ -391,7 +394,13 @@ export class GlslMinify {
     // Perform the minification. This takes three separate passes over the input.
     const pass1 = await this.preprocessPass1(input);
     const pass2 = this.preprocessPass2(pass1);
-    const pass3 = this.minifier(pass2);
+    let pass3;
+    if (this.options.keepNewlines || this.options.keepComments ) {
+      this.minifier(pass2);
+      pass3 = pass2;
+    } else {
+      pass3 = this.minifier(pass2); 
+    }
 
     return {
       sourceCode: pass3,
@@ -405,7 +414,7 @@ export class GlslMinify {
    */
   protected async preprocessPass1(content: GlslFile): Promise<string> {
     let output = content.contents;
-
+    
     // Remove carriage returns. Use newlines only.
     if (!this.options.keepNewlines) {
       output = output.replace('\r', '');
@@ -576,6 +585,8 @@ export class GlslMinify {
       return TokenType.ttUniform;
     } else if (token === 'varying') {
       return TokenType.ttVarying;
+    } else if (token === 'in' || token === 'out') {
+      return TokenType.ttInOut; 
     } else if (glslTypes.indexOf(token) > -1) {
       return TokenType.ttType;
     } else if (glslReservedKeywords.indexOf(token) > -1) {
@@ -704,6 +715,7 @@ export class GlslMinify {
             break;
           }
 
+        case TokenType.ttInOut: 
         case TokenType.ttAttribute:
         case TokenType.ttUniform:
         case TokenType.ttVarying: {
@@ -752,12 +764,19 @@ export class GlslMinify {
                 writeToken(true);
                 break;
 
+              case TokenType.ttInOut: {
+                this.tokens.reserveKeywords([token]); 
+                writeToken(true); 
+                break; 
+              }
+
               case TokenType.ttUniform:
                 if (this.options.preserveUniforms) {
                   this.tokens.reserveKeywords([token]);
                 }
                 writeToken(true, this.tokens.minifyToken(token, variableType));
                 break;
+
 
               default:
                 if (this.options.preserveVariables) {
