@@ -42,7 +42,7 @@
     "clean": "rm -rf ./build",
     "lint": "npx eslint \"**/*.ts\" \"**/*.js\"",
     "test": "npx nyc -r cobertura -r text ./node_modules/jasmine-xml-reporter/bin/jasmine.js ./build/__tests__/*.test.js --junitreport --output=build/",
-    "install": "npx tsc"
+    "prepare": "npx tsc"
   },
   "files": [
     "bin/*",
