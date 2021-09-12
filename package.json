@@ -1,14 +1,14 @@
 {
   "name": "webpack-glsl-minify",
   "version": "1.4.2",
-  "author": "Felix Niemeyer <niemeyer.felix@gmail.com>",
+  "author": "Jure Gregorin <jgregorin@gmail.com>",
   "description": "GLSL Loader, Preprocessor, and Minifier for Webpack",
-  "homepage": "https://github.com/felixniemeyer/webpack-glsl-minify",
+  "homepage": "https://github.com/juregregorin/webpack-glsl-minify",
   "license": "MIT",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/felixniemeyer/webpack-glsl-minify"
+    "url": "https://github.com/juregregorin/webpack-glsl-minify"
   },
   "dependencies": {
     "glob": "^7.1.6",
@@ -41,7 +41,8 @@
     "build": "npx tsc",
     "clean": "rm -rf ./build",
     "lint": "npx eslint \"**/*.ts\" \"**/*.js\"",
-    "test": "npx nyc -r cobertura -r text ./node_modules/jasmine-xml-reporter/bin/jasmine.js ./build/__tests__/*.test.js --junitreport --output=build/"
+    "test": "npx nyc -r cobertura -r text ./node_modules/jasmine-xml-reporter/bin/jasmine.js ./build/__tests__/*.test.js --junitreport --output=build/",
+    "install": "npm run build"
   },
   "files": [
     "bin/*",
